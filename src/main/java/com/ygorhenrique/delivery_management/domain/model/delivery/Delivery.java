@@ -1,5 +1,6 @@
 package com.ygorhenrique.delivery_management.domain.model.delivery;
 
+import com.ygorhenrique.delivery_management.domain.exception.BusinessException;
 import com.ygorhenrique.delivery_management.domain.model.address.Address;
 import com.ygorhenrique.delivery_management.domain.model.customer.Customer;
 import jakarta.persistence.*;
@@ -13,7 +14,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "deliveries")
 @Getter
-@Setter
 @NoArgsConstructor
 public class Delivery {
     @Id
@@ -47,5 +47,30 @@ public class Delivery {
         if(this.status == null) {
             this.status = DeliveryStatus.PENDING;
         }
+    }
+
+    public void confirmDelivery() {
+        if(this.status == DeliveryStatus.DELIVERED) {
+            throw new BusinessException("Entrega já foi confirmada");
+        }
+        if(this.status != DeliveryStatus.OUT_FOR_DELIVERY) {
+            throw new BusinessException("Não é possível confirmar a entrega no status atual");
+        }
+        this.status = DeliveryStatus.DELIVERED;
+        this.deliveredAt = LocalDateTime.now();
+    }
+
+    public void marksAsOutForDelivery() {
+        if(this.status != DeliveryStatus.PENDING) {
+            throw new BusinessException("Não é possível iniciar a entrega no status atual");
+        }
+        this.status = DeliveryStatus.OUT_FOR_DELIVERY;
+    }
+
+    public void markAsFailed() {
+        if(this.status != DeliveryStatus.OUT_FOR_DELIVERY) {
+            throw new BusinessException("Entrega não pode falhar no status atual");
+        }
+        this.status = DeliveryStatus.FAILED;
     }
 }
