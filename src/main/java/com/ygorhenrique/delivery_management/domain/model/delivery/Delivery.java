@@ -4,10 +4,8 @@ import com.ygorhenrique.delivery_management.domain.exception.BusinessException;
 import com.ygorhenrique.delivery_management.domain.model.address.Address;
 import com.ygorhenrique.delivery_management.domain.model.customer.Customer;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -40,6 +38,13 @@ public class Delivery {
     private LocalDateTime deliveredAt;
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+
+    public Delivery(@NotNull(message = "Descrição é obrigatória") String description,
+                    Customer costumer,
+                    @NotNull(message = "Horário de entrega é obrigatório") LocalDateTime scheduledAt,
+                    Address address,
+                    @NotNull(message = "Nome do receptor é obrigatório") String receiver) {
+    }
 
     @PrePersist
     public void prePersist() {
