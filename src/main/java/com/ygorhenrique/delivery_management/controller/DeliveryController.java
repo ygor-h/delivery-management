@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("deliveries")
 @RequiredArgsConstructor
@@ -24,5 +26,10 @@ public class DeliveryController {
     @GetMapping("/{id}")
     public ResponseEntity<DeliveryResponseDTO> getDeliveryById(@PathVariable Long id) {
         return ResponseEntity.ok(deliveryService.getDeliveryById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DeliveryResponseDTO>> getAllDeliveries() {
+        return ResponseEntity.ok(deliveryService.getAllDeliveries());
     }
 }

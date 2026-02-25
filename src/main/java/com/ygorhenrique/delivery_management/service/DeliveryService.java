@@ -11,6 +11,8 @@ import com.ygorhenrique.delivery_management.repository.CustomerRepository;
 import com.ygorhenrique.delivery_management.repository.DeliveryRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DeliveryService {
     private final DeliveryRepository deliveryRepository;
@@ -56,6 +58,13 @@ public class DeliveryService {
                 () -> new DeliveryNotFoundException(id)
         );
         return toResponseDTO(delivery);
+    }
+
+    public List<DeliveryResponseDTO> getAllDeliveries() {
+        return deliveryRepository.findAll()
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
     }
 
     private DeliveryResponseDTO toResponseDTO(Delivery delivery) {
