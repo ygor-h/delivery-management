@@ -2,6 +2,7 @@ package com.ygorhenrique.delivery_management.controller;
 
 import com.ygorhenrique.delivery_management.dto.DeliveryDTO;
 import com.ygorhenrique.delivery_management.dto.DeliveryResponseDTO;
+import com.ygorhenrique.delivery_management.dto.DeliveryUpdateDTO;
 import com.ygorhenrique.delivery_management.service.DeliveryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,21 @@ public class DeliveryController {
     @GetMapping
     public ResponseEntity<List<DeliveryResponseDTO>> getAllDeliveries() {
         return ResponseEntity.ok(deliveryService.getAllDeliveries());
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteDelivery(@PathVariable Long id) {
+        deliveryService.deleteDelivery(id);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<DeliveryResponseDTO> patchDelivery(@PathVariable Long id, @RequestBody DeliveryUpdateDTO deliveryUpdateDTO) {
+        return ResponseEntity.ok(deliveryService.patchDelivery(id, deliveryUpdateDTO));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<DeliveryResponseDTO>  updateDelivery(@PathVariable Long id, @Valid @RequestBody DeliveryDTO deliveryDTO) {
+        return ResponseEntity.ok(deliveryService.updateDelivery(id, deliveryDTO));
     }
 }
