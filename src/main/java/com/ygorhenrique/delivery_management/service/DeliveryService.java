@@ -1,6 +1,7 @@
 package com.ygorhenrique.delivery_management.service;
 
 import com.ygorhenrique.delivery_management.domain.exception.BusinessException;
+import com.ygorhenrique.delivery_management.domain.exception.DeliveryNotFoundException;
 import com.ygorhenrique.delivery_management.domain.model.address.Address;
 import com.ygorhenrique.delivery_management.domain.model.customer.Customer;
 import com.ygorhenrique.delivery_management.domain.model.delivery.Delivery;
@@ -28,21 +29,10 @@ public class DeliveryService {
 
         Delivery savedDelivery = deliveryRepository.save(delivery);
 
-        return new DeliveryResponseDTO(
-                savedDelivery.getId(),
-                savedDelivery.getDescription(),
-                savedDelivery.getReceiver(),
-                savedDelivery.getScheduledAt(),
-                savedDelivery.getAddress().getStreet(),
-                savedDelivery.getAddress().getNumber(),
-                savedDelivery.getAddress().getNeighborhood(),
-                savedDelivery.getAddress().getCity(),
-                savedDelivery.getAddress().getState(),
-                savedDelivery.getAddress().getZipcode()
-        );
+        return toResponseDTO(savedDelivery);
     }
 
-    private static Delivery buildDelivery(DeliveryDTO deliveryDTO, Customer customer) {
+    private Delivery buildDelivery(DeliveryDTO deliveryDTO, Customer customer) {
         Address address = new Address(
                 deliveryDTO.getAddress().getStreet(),
                 deliveryDTO.getAddress().getNumber(),
@@ -58,6 +48,28 @@ public class DeliveryService {
                 deliveryDTO.getScheduledAt(),
                 address,
                 deliveryDTO.getReceiver()
+        );
+    }
+
+    public DeliveryResponseDTO getDeliveryById(Long id) {
+        Delivery delivery = deliveryRepository.findById(id).orElseThrow(
+                () -> new DeliveryNotFoundException(id)
+        );
+        return toResponseDTO(delivery);
+    }
+
+    private DeliveryResponseDTO toResponseDTO(Delivery delivery) {
+        return new DeliveryResponseDTO(
+                delivery.getId(),
+                delivery.getDescription(),
+                delivery.getReceiver(),
+                delivery.getScheduledAt(),
+                delivery.getAddress().getStreet(),
+                delivery.getAddress().getNumber(),
+                delivery.getAddress().getNeighborhood(),
+                delivery.getAddress().getCity(),
+                delivery.getAddress().getState(),
+                delivery.getAddress().getZipcode()
         );
     }
 }
