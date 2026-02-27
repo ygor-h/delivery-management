@@ -49,4 +49,19 @@ public class DeliveryController {
     public ResponseEntity<DeliveryResponseDTO>  updateDelivery(@PathVariable Long id, @Valid @RequestBody DeliveryDTO deliveryDTO) {
         return ResponseEntity.ok(deliveryService.updateDelivery(id, deliveryDTO));
     }
+
+    @PatchMapping("/{id}/out-for-delivery")
+    public ResponseEntity<DeliveryResponseDTO> markAsOutForDelivery(@PathVariable Long id) {
+        return ResponseEntity.ok(deliveryService.markAsOutForDelivery(id));
+    }
+
+    @PatchMapping("/{id}/confirm")
+    public ResponseEntity<DeliveryResponseDTO> confirmDelivery(@PathVariable Long id) {
+        return ResponseEntity.ok(deliveryService.confirmDelivery(id));
+    }
+
+    @PatchMapping("/{id}/failed")
+    public ResponseEntity<DeliveryResponseDTO> markAsFailed(@PathVariable Long id) {
+        return ResponseEntity.ok(deliveryService.markAsFailed(id));
+    }
 }

@@ -160,4 +160,34 @@ public class DeliveryService {
 
         return toResponseDTO(saved);
     }
+
+    public DeliveryResponseDTO markAsOutForDelivery(Long id) {
+        Delivery delivery = deliveryRepository.findById(id).orElseThrow(
+                () -> new DeliveryNotFoundException(id)
+        );
+
+        delivery.marksAsOutForDelivery();
+        Delivery saved = deliveryRepository.save(delivery);
+        return toResponseDTO(saved);
+    }
+
+    public DeliveryResponseDTO confirmDelivery(Long id) {
+        Delivery delivery = deliveryRepository.findById(id).orElseThrow(
+                () -> new DeliveryNotFoundException(id)
+        );
+
+        delivery.confirmDelivery();
+        Delivery saved = deliveryRepository.save(delivery);
+        return toResponseDTO(saved);
+    }
+
+    public DeliveryResponseDTO markAsFailed(Long id) {
+        Delivery delivery = deliveryRepository.findById(id).orElseThrow(
+                () -> new DeliveryNotFoundException(id)
+        );
+
+        delivery.markAsFailed();
+        Delivery saved = deliveryRepository.save(delivery);
+        return toResponseDTO(saved);
+    }
 }
