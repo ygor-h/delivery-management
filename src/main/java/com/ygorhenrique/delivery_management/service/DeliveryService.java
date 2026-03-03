@@ -27,7 +27,10 @@ public class DeliveryService {
     private DeliveryResponseDTO toResponseDTO(Delivery delivery) {
         return new DeliveryResponseDTO(
                 delivery.getId(),
+                delivery.getStatus(),
+                delivery.getDeliveredAt(),
                 delivery.getDescription(),
+                delivery.getCustomer().getName(),
                 delivery.getReceiver(),
                 delivery.getScheduledAt(),
                 delivery.getAddress().getStreet(),
