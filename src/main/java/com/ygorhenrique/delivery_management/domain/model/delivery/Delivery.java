@@ -34,7 +34,7 @@ public class Delivery {
     @Column(nullable = false)
     @Setter(AccessLevel.PACKAGE)
     @Enumerated(EnumType.STRING)
-    private DeliveryStatus status;
+    private DeliveryStatus status = DeliveryStatus.PENDING;
     @Column(name = "delivered_at")
     private LocalDateTime deliveredAt;
     @Column(name = "created_at", nullable = false)
