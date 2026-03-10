@@ -2,11 +2,13 @@ package com.ygorhenrique.delivery_management.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class AddressDTO {
     @NotBlank(message = "Rua é obrigatória")
     private String street;
